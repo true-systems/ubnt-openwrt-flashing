@@ -1,33 +1,76 @@
-### BIG FAT WARNING
+# BIG FAT WARNING
 
-> Flashing your router is a always risky procedure. You're doing it at your own risk, you take the full responsibility
+> Flashing your router is always risky procedure. You're doing it at your own risk, you take the full responsibility
 > for any action you choose, we cannot be held liable for any damage you do to your device, other devices, any other
 > person or animal.
 
 ### Purpose
 
-Easier flashing of OpenWrt firmware on UBNT M2HP (and maybe others?) devices running airOS v6 and higher.
+Easier end-user flashing (no soldering needed) of OpenWrt firmware on UBNT M2HP [(and maybe others?)](#supported-and-tested-devices) devices running airOS v6.1.7. 
 
 ### License
 
 [mtd](https://archive.openwrt.org/kamikaze/8.09.2/ar71xx/packages/mtd_8.2_mips.ipk) utility shipped in
-[flash.sh](https://github.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/blob/master/flash.sh) is licensed under
+[flash-sysupgrade.sh](https://github.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/blob/master/flash-sysupgrade.sh) is licensed under
 GPLv2, everything else in this repository [is free and unencumbered software released into the public
 domain.](http://unlicense.org)
 
-### Usage
+### Tested device list
 
-1. You need to flash your UBNT M2HP with [airOS v6.1.7 firmware](https://dl.ubnt.com/firmwares/XW-fw/v6.1.7/XW.v6.1.7.32555.180523.1754.bin) no other airOS version is supported
+|   Device      |   Status     |   Factory    |   Sysupgrade |
+|:-------------:|:------------:|:------------:|:------------:|
+| [Bullet M2HP](https://www.ubnt.com/airmax/bulletm/#specs)  | `Working`    |     Yes      |     Yes      |
+
+We currently have access to just one type of device so can't confirm if similar approach might work on other devices with same airOS version. Feel free to test it and let us know.
+
+
+### Usage
+#### Prerequisites
+
+1. You need to flash your UBNT M2HP with [airOS v6.1.7 firmware](https://dl.ubnt.com/firmwares/XW-fw/v6.1.7/XW.v6.1.7.32555.180523.1754.bin)
+   no other airOS version is currently supported
 
 2. Download this toolkit sources
 ```
 git clone https://github.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing
 cd ubnt-bullet-m2hp-openwrt-flashing
 ```
+#### Flashing OpenWrt sysupgrade image
 
-3. Flash OpenWrt
+You can find [more details](#flashing-sysupgrade-image-using-mtd-over-ssh-in-airos-v617) about this method bellow.
 ```
-make flash FW_UBNT=/path/to/your/openwrt-ath79-generic-ubnt_bullet-m2hp-squashfs-sysupgrade.bin
+make flash-sysupgrade FW_OWRT=/path/to/your/openwrt-ath79-generic-ubnt_bullet-m2hp-squashfs-sysupgrade.bin
+```
+
+#### Flashing OpenWrt factory image
+
+You can find [more details](#flashing-factory-image-using-patched-fwupdatereal-command-over-ssh-in-airos-v617) about this method bellow.
+
+```
+make flash-factory FW_OWRT=/path/to/your/openwrt-ath79-generic-ubnt_bullet-m2hp-squashfs-factory.bin
+```
+
+Example output from successful flashing sessions:
+
+* Flashing factory image in [flash-factory.log](https://raw.githubusercontent.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/master/flash-factory.log).
+* Flashing sysupgrade image in [flash-sysupgrade.log](https://raw.githubusercontent.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/master/flash-sysupgrade.log).
+
+#### Other useful make targets
+
+##### Get patched `fwupdate.real` command
+
+For legal reasons, we can't redistribute patched binaries. To get patched `fwupdate.real` command with removed RSA image signature checking directly from your router with default IP address `192.168.1.20` use following commands.
+
+```
+make ubntbox.patched REMOTE_UBNT=ubnt@192.168.1.20
+mv ubntbox.patched fwupdate.real
+```
+
+##### Restore from OpenWrt back to factory image
+
+Before running every flash command, we create backup of currently running factory firmware image in `firmware-backup.bin`. You can then restore your router running OpenWrt with `192.168.1.1` IP address back to this firmware by using this `make` target.
+```
+make restore REMOTE_OWRT=root@192.168.1.1
 ```
 
 ### Background
@@ -37,30 +80,7 @@ signed firmware images only:
 
 ```
 XW.v6.1.7# fwupdate.real -m /tmp/openwrt-ath79-generic-ubnt_bullet-m2hp-squashfs-factory.bin  -d
-Found mtd block: /dev/mtd0(u-boot)
-Found mtd block: /dev/mtd1(u-boot-env)
-Found mtd block: /dev/mtd2(kernel)
-Found mtd block: /dev/mtd3(rootfs)
-Found mtd block: /dev/mtd4(cfg)
-Found mtd block: /dev/mtd5(EEPROM)
-Got U-Boot variable: mtdparts = mtdparts=ath-nor0:256k(u-boot),64k(u-boot-env),1024k(kernel),6528k(rootfs),256k(cfg),64k(EEPROM)
-Adding U-Boot partition: u-boot 9F000000 00040000
-Adding U-Boot partition: u-boot-env 9F040000 00010000
-Adding U-Boot partition: kernel 9F050000 00100000
-Adding U-Boot partition: rootfs 9F150000 00660000
-Adding U-Boot partition: cfg 9F7B0000 00040000
-Adding U-Boot partition: EEPROM 9F7F0000 00010000
-Calculating flash size:
-Adding block: /dev/mtd0("u-boot") - size: 00040000
-Adding block: /dev/mtd1("u-boot-env") - size: 00010000
-Adding block: /dev/mtd2("kernel") - size: 00100000
-Adding block: /dev/mtd3("rootfs") - size: 00660000
-Adding block: /dev/mtd4("cfg") - size: 00040000
-Adding block: /dev/mtd5("EEPROM") - size: 00010000
-Total flash size: 00800000
-Flash start: 9F000000
-Flash end: 9F800000
-Header MAGIC 'OPEN'
+...
 Current: XW.ar934x.v6.1.7.32555.180523.1754
 
 New ver: XW.ar934x.v6.0.4-OpenWrt-r8452+9-e95e9fc
@@ -71,15 +91,57 @@ Bad Image Structure
 Signature check failed
 ```
 
-So we're left with probably these remaining options:
+So we were left with probably these remaining flashing methods:
 
-* dissassemble and patch `fwupdate.real` utility so it would accept and flash unsigned OpenWrt firmware images
-  * this needs someone more skilled as I'm currently not able to dissassemble `ubntbox` binary even with latest radare2
-    so the output is usable/readable, the problem is probably very old toolchain and uClibc
 * solder serial console and use TFTP for image flashing using `tftpboot` with initramfs image
-* try to flash sysupgrade image using `mtd` over ssh in airOS
+* try to flash sysupgrade image using `mtd` over SSH in airOS
+* dissassemble and patch `fwupdate.real` command so it would accept and flash unsigned OpenWrt factory firmware images
 
-### Flashing sysupgrade image using `mtd` over ssh in airOS v6.1.7
+For end users, it's always more convenient to find some flashing method which
+wouldn't involve any soldering, so we've first tried to find out if it would be
+possible to flash OpenWrt with `mtd` over SSH in airOS. We've found out that
+it's doable.
+
+Then just out of the curiosity and for some fun, we've tried to patch out RSA
+signature checking from `fwupdate.real` utility and check if it would allow us
+flashing unsigned factory firmware image generated by OpenWrt. We've found out,
+that it's doable also.
+
+You can read more details about those two methods in more detail bellow.
+
+### Flashing factory image using patched `fwupdate.real` command over SSH in airOS v6.1.7
+
+This approach is using patched `fwupdate.real` command from `ubntbox` utility.
+We've simply removed `Bad Image Structure` and `Signature check failed` checks,
+so it's now possible to flash factory images built with OpenWrt.
+
+`radiff2` with JSON output shows what was patched out in `ubntbox.patched`:
+
+```
+r2@6608438f7a41:~$ radiff2 -j /data/ubntbox /data/ubntbox.patched 
+
+{"files":[{"filename":"/data/ubntbox", "size":715136, "sha256":"73460d7205549e1298fd0dad718edd61d06b8db07aecc637a41cbb547630e587"},
+{"filename":"/data/ubntbox.patched", "size":715136, "sha256":"ca06d93741b30bdcb3a8b0577545aa0c32c4b5d9ac88f8580bae5a2774c890c3"}],
+"changes":[{"offset":57104,"from":"16e0", "to":"0000"},
+{"offset":57107,"from":"038f9982", "to":"00000000"},
+{"offset":57112,"from":"10", "to":"00"},
+{"offset":57115,"from":"772410ff2d92e4", "to":"00000000000000"},
+{"offset":57123,"from":"1402e420212484", "to":"00000000000000"},
+{"offset":57131,"from":"3803c028210320f809", "to":"000000000000000000"},
+{"offset":57141,"from":"9e30231040", "to":"0000000000"},
+{"offset":57147,"from":"0a8fbc", "to":"000000"},
+{"offset":57151,"from":"288f8283f88f8480288f99814c8c45", "to":"000000000000000000000000000000"},
+{"offset":57168,"from":"0320f80924846d148fbc", "to":"00000000000000000000"},
+{"offset":57179,"from":"2810", "to":"0000"},
+{"offset":57183,"from":"662410ff2c", "to":"0000000000"},
+{"offset":60576,"from":"16f1fc878f848028", "to":"0000000000000000"}]
+```
+
+Unfortunately we can't redistribute patched `ubntbox.patched` binary, but you
+can get patched `ubntbox` from your router by just running `make ubntbox.patched` command.
+You can find output from flashing session of factory image with patched `ubntbox.patched` in [flash-factory.log](https://raw.githubusercontent.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/master/flash-factory.log).
+
+### Flashing sysupgrade image using `mtd` over SSH in airOS v6.1.7
 
 This approach is using [`mtd` utility from Kamikaze 8.09.2](https://archive.openwrt.org/kamikaze/8.09.2/ar71xx/packages/mtd_8.2_mips.ipk)
 for flashing OpenWrt sysupgrade image. Unfortunately this is not so easy either, as there seems to be some flash write
@@ -142,3 +204,4 @@ dd if="$fw" bs=$CI_BLKSZ skip=$kernel_blocks 2>/dev/null | /tmp/mtd -r -e rootfs
 ```
 
 You can do all this steps manually or just use content of this repository for [more automated process](#usage).
+You can find complete output from flashing session of sysupgrade image with `make flash-sysupgrade` command using above explained approach in [flash-sysupgrade.log](https://raw.githubusercontent.com/true-systems/ubnt-bullet-m2hp-openwrt-flashing/master/flash-sysupgrade.log).

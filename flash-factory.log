@@ -1,0 +1,383 @@
+Found mtd block: /dev/mtd0(u-boot)
+Found mtd block: /dev/mtd1(u-boot-env)
+Found mtd block: /dev/mtd2(kernel)
+Found mtd block: /dev/mtd3(rootfs)
+Found mtd block: /dev/mtd4(cfg)
+Found mtd block: /dev/mtd5(EEPROM)
+Got U-Boot variable: mtdparts = mtdparts=ath-nor0:256k(u-boot),64k(u-boot-env),1024k(kernel),6528k(rootfs),256k(cfg),64k(EEPROM)
+Adding U-Boot partition: u-boot 9F000000 00040000
+Adding U-Boot partition: u-boot-env 9F040000 00010000
+Adding U-Boot partition: kernel 9F050000 00100000
+Adding U-Boot partition: rootfs 9F150000 00660000
+Adding U-Boot partition: cfg 9F7B0000 00040000
+Adding U-Boot partition: EEPROM 9F7F0000 00010000
+Calculating flash size:
+Adding block: /dev/mtd0("u-boot") - size: 00040000
+Adding block: /dev/mtd1("u-boot-env") - size: 00010000
+Adding block: /dev/mtd2("kernel") - size: 00100000
+Adding block: /dev/mtd3("rootfs") - size: 00660000
+Adding block: /dev/mtd4("cfg") - size: 00040000
+Adding block: /dev/mtd5("EEPROM") - size: 00010000
+Total flash size: 00800000
+Flash start: 9F000000
+Flash end: 9F800000
+Header MAGIC 'OPEN'
+Current: XW.ar934x.v6.1.7.32555.180523.1754
+
+New ver: XW.ar934x.v6.0.4-OpenWrt-r8461+10-c6a1bca
+Versions: New(393220) 6.0.4, Required(393220) 6.0.4
+FW Part: "kernel"(1), MAGIC: 'PART', Base: 0x9F050000, DLen: 0x00100000, PLen: 0x00100000
+FW Part: "rootfs"(2), MAGIC: 'PART', Base: 0x9F150000, DLen: 0x003C0004, PLen: 0x00660000
+Signature verified
+Signature MAGIC 'END.'
+FW Part: "kernel"(1), MAGIC: 'PART', Base: 0x9F050000, DLen: 0x00100000, PLen: 0x00100000
+FW Part: "rootfs"(2), MAGIC: 'PART', Base: 0x9F150000, DLen: 0x003C0004, PLen: 0x00660000
+Adding adjusted FW partition:
+name:	'kernel'
+flash_base:	0x9F050000
+mem_base:	0x80002000
+size:		0x00100000
+entry_point:	0x80002000
+data_len:	0x00100000
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Adding adjusted FW partition:
+name:	'rootfs'
+flash_base:	0x9F150000
+mem_base:	0xBDBDBDBD
+size:		0x00660000
+entry_point:	0xBDBDBDBD
+data_len:	0x003C0004
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Signature MAGIC 'END.'
+Working(1) with block: /dev/mtd0
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F050000 < blk->base: 9F000000 + blk->size: 40000
+Copying FIS partition: 0 =>
+name:	'u-boot'
+flash_base:	0x9F000000
+mem_base:	0xBDBDBDBD
+size:		0x00040000
+entry_point:	0xBDBDBDBD
+data_len:	0x00040000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(1) with block: /dev/mtd1
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F050000 < blk->base: 9F040000 + blk->size: 10000
+Copying FIS partition: 1 =>
+name:	'u-boot-env'
+flash_base:	0x9F040000
+mem_base:	0xBDBDBDBD
+size:		0x00010000
+entry_point:	0xBDBDBDBD
+data_len:	0x00010000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(1) with block: /dev/mtd2
+Working(2) with block: /dev/mtd2
+End check: 9F050000 + 00100000 <= 9F150000
+Creating FIS partition: 2 =>
+name:	'kernel'
+flash_base:	0x9F050000
+mem_base:	0x80002000
+size:		0x00100000
+entry_point:	0x80002000
+data_len:	0x00100000
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Working(1) with block: /dev/mtd2
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F150000 < blk->base: 9F050000 + blk->size: 100000
+Working(1) with block: /dev/mtd3
+Working(2) with block: /dev/mtd3
+End check: 9F150000 + 00660000 <= 9F7B0000
+Creating FIS partition: 3 =>
+name:	'rootfs'
+flash_base:	0x9F150000
+mem_base:	0xBDBDBDBD
+size:		0x00660000
+entry_point:	0xBDBDBDBD
+data_len:	0x003C0004
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Working(3) with block: /dev/mtd4
+Copying FIS partition: 4 <=
+name:	'cfg'
+flash_base:	0x9F7B0000
+mem_base:	0xBDBDBDBD
+size:		0x00040000
+entry_point:	0xBDBDBDBD
+data_len:	0x00040000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(3) with block: /dev/mtd5
+Copying FIS partition: 5 <=
+name:	'EEPROM'
+flash_base:	0x9F7F0000
+mem_base:	0xBDBDBDBD
+size:		0x00010000
+entry_point:	0xBDBDBDBD
+data_len:	0x00010000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+New FIS entries count 6
+Executing: '/bin/updatefix.sh 393479 393220'
+Current ver: 393479
+New version: 393220
+No need to fix.
+'/bin/updatefix.sh 393479 393220' result: 0
+Working(1) with block: /dev/mtd0
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F050000 < blk->base: 9F000000 + blk->size: 40000
+Copying FIS partition: 0 =>
+name:	'u-boot'
+flash_base:	0x9F000000
+mem_base:	0xBDBDBDBD
+size:		0x00040000
+entry_point:	0xBDBDBDBD
+data_len:	0x00040000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(1) with block: /dev/mtd1
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F050000 < blk->base: 9F040000 + blk->size: 10000
+Copying FIS partition: 1 =>
+name:	'u-boot-env'
+flash_base:	0x9F040000
+mem_base:	0xBDBDBDBD
+size:		0x00010000
+entry_point:	0xBDBDBDBD
+data_len:	0x00010000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(1) with block: /dev/mtd2
+Working(2) with block: /dev/mtd2
+Unlocking /dev/mtd2(kernel) ...
+Unlocking device failed: ioctl(MEMUNLOCK): Operation not supported
+Writing 'kernel         ' to /dev/mtd2(kernel         ) ...  
+Writing: 0x00100000 bytes with offset 0x00000000
+[%0  ]
+Block on '/dev/mtd2' at 00000000(len: 00010000) has changes.
+[%6  ]
+Block on '/dev/mtd2' at 00010000(len: 00010000) has changes.
+[%12 ]
+Block on '/dev/mtd2' at 00020000(len: 00010000) has changes.
+[%18 ]
+Block on '/dev/mtd2' at 00030000(len: 00010000) has changes.
+[%25 ]
+Block on '/dev/mtd2' at 00040000(len: 00010000) has changes.
+[%31 ]
+Block on '/dev/mtd2' at 00050000(len: 00010000) has changes.
+[%37 ]
+Block on '/dev/mtd2' at 00060000(len: 00010000) has changes.
+[%43 ]
+Block on '/dev/mtd2' at 00070000(len: 00010000) has changes.
+[%50 ]
+Block on '/dev/mtd2' at 00080000(len: 00010000) has changes.
+[%56 ]
+Block on '/dev/mtd2' at 00090000(len: 00010000) has changes.
+[%62 ]
+Block on '/dev/mtd2' at 000A0000(len: 00010000) has changes.
+[%68 ]
+Block on '/dev/mtd2' at 000B0000(len: 00010000) has changes.
+[%75 ]
+Block on '/dev/mtd2' at 000C0000(len: 00010000) has changes.
+[%81 ]
+Block on '/dev/mtd2' at 000D0000(len: 00010000) has changes.
+[%87 ]
+Block on '/dev/mtd2' at 000E0000(len: 00010000) has changes.
+[%93 ]
+Block on '/dev/mtd2' at 000F0000(len: 00010000) has changes.
+[%100]
+
+End check: 9F050000 + 00100000 <= 9F150000
+Creating FIS partition: 2 =>
+name:	'kernel'
+flash_base:	0x9F050000
+mem_base:	0x80002000
+size:		0x00100000
+entry_point:	0x80002000
+data_len:	0x00100000
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Working(1) with block: /dev/mtd2
+Skipping: artificial: 0, unallocated: 0,writeable: 1024(WRITEABLE: 400, flags: C00), fw.flash_base: 9F150000 < blk->base: 9F050000 + blk->size: 100000
+Working(1) with block: /dev/mtd3
+Working(2) with block: /dev/mtd3
+Unlocking /dev/mtd3(rootfs) ...
+Unlocking device failed: ioctl(MEMUNLOCK): Operation not supported
+Writing 'rootfs         ' to /dev/mtd3(rootfs         ) ...  
+Writing: 0x003C0004 bytes with offset 0x00000000
+[%0  ]
+Block on '/dev/mtd3' at 00000000(len: 00010000) has changes.
+[%1  ]
+Block on '/dev/mtd3' at 00010000(len: 00010000) has changes.
+[%3  ]
+Block on '/dev/mtd3' at 00020000(len: 00010000) has changes.
+[%4  ]
+Block on '/dev/mtd3' at 00030000(len: 00010000) has changes.
+[%6  ]
+Block on '/dev/mtd3' at 00040000(len: 00010000) has changes.
+[%8  ]
+Block on '/dev/mtd3' at 00050000(len: 00010000) has changes.
+[%9  ]
+Block on '/dev/mtd3' at 00060000(len: 00010000) has changes.
+[%11 ]
+Block on '/dev/mtd3' at 00070000(len: 00010000) has changes.
+[%13 ]
+Block on '/dev/mtd3' at 00080000(len: 00010000) has changes.
+[%14 ]
+Block on '/dev/mtd3' at 00090000(len: 00010000) has changes.
+[%16 ]
+Block on '/dev/mtd3' at 000A0000(len: 00010000) has changes.
+[%18 ]
+Block on '/dev/mtd3' at 000B0000(len: 00010000) has changes.
+[%19 ]
+Block on '/dev/mtd3' at 000C0000(len: 00010000) has changes.
+[%21 ]
+Block on '/dev/mtd3' at 000D0000(len: 00010000) has changes.
+[%23 ]
+Block on '/dev/mtd3' at 000E0000(len: 00010000) has changes.
+[%24 ]
+Block on '/dev/mtd3' at 000F0000(len: 00010000) has changes.
+[%26 ]
+Block on '/dev/mtd3' at 00100000(len: 00010000) has changes.
+[%28 ]
+Block on '/dev/mtd3' at 00110000(len: 00010000) has changes.
+[%29 ]
+Block on '/dev/mtd3' at 00120000(len: 00010000) has changes.
+[%31 ]
+Block on '/dev/mtd3' at 00130000(len: 00010000) has changes.
+[%33 ]
+Block on '/dev/mtd3' at 00140000(len: 00010000) has changes.
+[%34 ]
+Block on '/dev/mtd3' at 00150000(len: 00010000) has changes.
+[%36 ]
+Block on '/dev/mtd3' at 00160000(len: 00010000) has changes.
+[%38 ]
+Block on '/dev/mtd3' at 00170000(len: 00010000) has changes.
+[%39 ]
+Block on '/dev/mtd3' at 00180000(len: 00010000) has changes.
+[%41 ]
+Block on '/dev/mtd3' at 00190000(len: 00010000) has changes.
+[%43 ]
+Block on '/dev/mtd3' at 001A0000(len: 00010000) has changes.
+[%44 ]
+Block on '/dev/mtd3' at 001B0000(len: 00010000) has changes.
+[%46 ]
+Block on '/dev/mtd3' at 001C0000(len: 00010000) has changes.
+[%48 ]
+Block on '/dev/mtd3' at 001D0000(len: 00010000) has changes.
+[%49 ]
+Block on '/dev/mtd3' at 001E0000(len: 00010000) has changes.
+[%51 ]
+Block on '/dev/mtd3' at 001F0000(len: 00010000) has changes.
+[%53 ]
+Block on '/dev/mtd3' at 00200000(len: 00010000) has changes.
+[%54 ]
+Block on '/dev/mtd3' at 00210000(len: 00010000) has changes.
+[%56 ]
+Block on '/dev/mtd3' at 00220000(len: 00010000) has changes.
+[%58 ]
+Block on '/dev/mtd3' at 00230000(len: 00010000) has changes.
+[%59 ]
+Block on '/dev/mtd3' at 00240000(len: 00010000) has changes.
+[%61 ]
+Block on '/dev/mtd3' at 00250000(len: 00010000) has changes.
+[%63 ]
+Block on '/dev/mtd3' at 00260000(len: 00010000) has changes.
+[%64 ]
+Block on '/dev/mtd3' at 00270000(len: 00010000) has changes.
+[%66 ]
+Block on '/dev/mtd3' at 00280000(len: 00010000) has changes.
+[%68 ]
+Block on '/dev/mtd3' at 00290000(len: 00010000) has changes.
+[%69 ]
+Block on '/dev/mtd3' at 002A0000(len: 00010000) has changes.
+[%71 ]
+Block on '/dev/mtd3' at 002B0000(len: 00010000) has changes.
+[%73 ]
+Block on '/dev/mtd3' at 002C0000(len: 00010000) has changes.
+[%74 ]
+Block on '/dev/mtd3' at 002D0000(len: 00010000) has changes.
+[%76 ]
+Block on '/dev/mtd3' at 002E0000(len: 00010000) has changes.
+[%78 ]
+Block on '/dev/mtd3' at 002F0000(len: 00010000) has changes.
+[%79 ]
+Block on '/dev/mtd3' at 00300000(len: 00010000) has changes.
+[%81 ]
+Block on '/dev/mtd3' at 00310000(len: 00010000) has changes.
+[%83 ]
+Block on '/dev/mtd3' at 00320000(len: 00010000) has changes.
+[%84 ]
+Block on '/dev/mtd3' at 00330000(len: 00010000) has changes.
+[%86 ]
+Block on '/dev/mtd3' at 00340000(len: 00010000) has changes.
+[%88 ]
+Block on '/dev/mtd3' at 00350000(len: 00010000) has changes.
+[%89 ]
+Block on '/dev/mtd3' at 00360000(len: 00010000) has changes.
+[%91 ]
+Block on '/dev/mtd3' at 00370000(len: 00010000) has changes.
+[%93 ]
+Block on '/dev/mtd3' at 00380000(len: 00010000) has changes.
+[%94 ]
+Block on '/dev/mtd3' at 00390000(len: 00010000) has changes.
+[%96 ]
+Block on '/dev/mtd3' at 003A0000(len: 00010000) has changes.
+[%98 ]
+Block on '/dev/mtd3' at 003B0000(len: 00010000) has changes.
+[%99 ]
+Block on '/dev/mtd3' at 003C0000(len: 00000004) has changes.
+[%100]
+
+End check: 9F150000 + 00660000 <= 9F7B0000
+Creating FIS partition: 3 =>
+name:	'rootfs'
+flash_base:	0x9F150000
+mem_base:	0xBDBDBDBD
+size:		0x00660000
+entry_point:	0xBDBDBDBD
+data_len:	0x003C0004
+desc_cksum:	0x00000000
+file_cksum:	0x00000000
+===========================
+Working(3) with block: /dev/mtd4
+Copying FIS partition: 4 <=
+name:	'cfg'
+flash_base:	0x9F7B0000
+mem_base:	0xBDBDBDBD
+size:		0x00040000
+entry_point:	0xBDBDBDBD
+data_len:	0x00040000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+Working(3) with block: /dev/mtd5
+Copying FIS partition: 5 <=
+name:	'EEPROM'
+flash_base:	0x9F7F0000
+mem_base:	0xBDBDBDBD
+size:		0x00010000
+entry_point:	0xBDBDBDBD
+data_len:	0x00010000
+desc_cksum:	0xBDBDBDBD
+file_cksum:	0xBDBDBDBD
+===========================
+New FIS entries count 6
+FIS Change: change in partition entry 'kernel'.
+FIS Change: change in partition entry 'rootfs'.
+FIS Change: added partition terminator instead of 0xBD.
+New partition count: 6, changes: 3
+Done
+
+
