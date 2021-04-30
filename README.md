@@ -20,6 +20,7 @@ domain.](http://unlicense.org)
 |   Device      |   Status     |   Factory    |   Sysupgrade |
 |:-------------:|:------------:|:------------:|:------------:|
 | [Bullet M2HP](https://www.ubnt.com/airmax/bulletm/#specs)  | `Working`    |     Yes      |     Yes      |
+| [PowerBeam M5-400](https://openwrt.org/toh/hwdata/ubiquiti/ubiquiti_powerbeam_m5-400) | `Working` | No | Yes |
 
 We currently have access to just one type of device so can't confirm if similar approach might work on other devices with same airOS version. Feel free to test it and let us know.
 
