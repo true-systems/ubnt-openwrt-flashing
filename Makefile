@@ -8,6 +8,9 @@ FW_UBNT ?= XW.v6.1.7.32555.180523.1754.bin
 UBNTBOX ?= ubntbox
 UBNTBOX_PATCHED ?= $(UBNTBOX).patched
 
+# Starting with OpenSSH v9.0, scp requires the -O option to use the legacy SCP protocol
+SCP_LEGACY_ARG := $(shell scp 2>&1 | grep -q O && echo -O)
+
 all:
 	@echo 'Please read carefully README.md'
 
@@ -25,7 +28,7 @@ define nopout
 endef
 
 $(UBNTBOX):
-	scp -O $(REMOTE_UBNT):/sbin/$(UBNTBOX) $(UBNTBOX)
+	scp $(SCP_LEGACY_ARG) $(REMOTE_UBNT):/sbin/$(UBNTBOX) $(UBNTBOX)
 	@sha256sum -c $(UBNTBOX).sha256sum > /dev/null
 
 $(UBNTBOX_PATCHED): $(UBNTBOX) FORCE
@@ -51,8 +54,8 @@ flash-factory: $(UBNTBOX_PATCHED)
 	@echo "Creating factory firmware backup"
 	ssh $(REMOTE_UBNT) "cat /dev/mtd2 /dev/mtd3" > $(FW_BACKUP)
 	ssh $(REMOTE_UBNT) "umount /tmp; mount -t tmpfs tmpfs /tmp"
-	scp -O $(UBNTBOX_PATCHED) $(REMOTE_UBNT):/tmp/fwupdate.real
-	scp -O $(FW_OWRT) $(REMOTE_UBNT):/tmp
+	scp $(SCP_LEGACY_ARG) $(UBNTBOX_PATCHED) $(REMOTE_UBNT):/tmp/fwupdate.real
+	scp $(SCP_LEGACY_ARG) $(FW_OWRT) $(REMOTE_UBNT):/tmp
 	ssh $(REMOTE_UBNT) "/tmp/fwupdate.real -m /tmp/$(notdir $(FW_OWRT)) -d 2>&1" | tee $@.log
 
 # Flashing OpenWrt sysupgrade image over airOS v6.1.7
@@ -61,12 +64,12 @@ flash-sysupgrade: $(FW_UBNT)
 	@echo "Creating factory firmware backup"
 	ssh $(REMOTE_UBNT) "cat /dev/mtd2 /dev/mtd3" > $(FW_BACKUP)
 	ssh $(REMOTE_UBNT) "umount /tmp ;mount -t tmpfs tmpfs /tmp"
-	scp -O $@.sh $(FW_OWRT) $(FW_UBNT) $(REMOTE_UBNT):/tmp
+	scp $(SCP_LEGACY_ARG) $@.sh $(FW_OWRT) $(FW_UBNT) $(REMOTE_UBNT):/tmp
 	ssh $(REMOTE_UBNT) "/bin/sh /tmp/$@.sh /tmp/$(notdir $(FW_OWRT)) 2>&1" | tee $@.log
 
 # Restoring airOS backup over OpenWrt
 restore: $(FW_BACKUP)
-	scp -O $(FW_BACKUP) $(REMOTE_OWRT):/tmp
+	scp $(SCP_LEGACY_ARG) $(FW_BACKUP) $(REMOTE_OWRT):/tmp
 	ssh $(REMOTE_OWRT) "mtd -r write /tmp/$(FW_BACKUP) firmware 2>&1" | tee $@.log
 
 clean:
